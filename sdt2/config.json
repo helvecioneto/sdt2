@@ -1,0 +1,5 @@
+[{  "INPUT":"../input/",
+    "OUTPUT":"../output/",
+    "HEADER2":"../headers/dicionario_dados_labren_v2.xlsx",
+    "FIX_HEADER":"../headers/cabecalho_dados_formatados.xlsx"
+ }]
