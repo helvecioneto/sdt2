@@ -15,4 +15,5 @@ To use Sonda Data Translator 2, it is necessary to configure the "config.json" f
 After configuring the directories config file, make sure it is in the root directory and type:
 
 $ cd sdt2
+
 $ python main.py
