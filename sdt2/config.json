@@ -6,5 +6,15 @@
 
     "MET_HEADER": [["id", "", ""], ["year", "", ""], ["jday", "", ""], ["min", "", ""],
                    ["tp_sfc", "\u00b0C", "tmo_aspira"], ["humid", "%", "hgr_aspira"], ["press", "mb", "bar_atmosf"], ["rain", "mm", "plv_tipbuk"],
-                   ["ws10_avg", "m/s", "anm_sonico"], ["ws10_std", "m/s", "anm_sonico"], ["wd10_avg", "deg", "anm_sonico"], ["wd10_std", "deg", "anm_sonico"]]
- }]
+                   ["ws10_avg", "m/s", "anm_sonico"], ["ws10_std", "m/s", "anm_sonico"], ["wd10_avg", "deg", "anm_sonico"], ["wd10_std", "deg", "anm_sonico"]],
+                   
+    "SOLAR_HEADER": [["id", "", ""], ["year", "", ""], ["jday", "", ""], ["min", "", ""], 
+                    ["glo_avg", "W/m2", "pir_termpil"], ["glo_std", "W/m2", "pir_termpil"], ["glo_max", "W/m2", "pir_termpil"], ["glo_min", "W/m2", "pir_termpil"], 
+                    ["dif_avg", "W/m2", "pir_rastsbr"], ["dif_std", "W/m2", "pir_rastsbr"], ["dif_max", "W/m2", "pir_rastsbr"], ["dif_min", "W/m2", "pir_rastsbr"], 
+                    ["par_avg", "µmols/m2.s", "par_fotodio"], ["par_std", "µmols/m2.s", "par_fotodio"], ["par_max", "µmols/m2.s", "par_fotodio"], ["par_min", "µmols/m2.s", "par_fotodio"], 
+                    ["lux_avg", "klux", "lux_fotodio"], ["lux_std", "klux", "lux_fotodio"], ["lux_max", "klux", "lux_fotodio"], ["lux_min", "klux", "lux_fotodio"], 
+                    ["dir_avg", "W/m2", "phl_termpil"], ["dir_std", "W/m2", "phl_termpil"], ["dir_max", "W/m2", "phl_termpil"], ["dir_min", "W/m2", "phl_termpil"], 
+                    ["lw_avg", "W/m2", "prg_rastsbr"], ["lw_std", "W/m2", "prg_rastsbr"], ["lw_max", "W/m2", "prg_rastsbr"], ["lw_min", "W/m2", "prg_rastsbr"], 
+                    ["temp_glo", "°C", "tmo_ventil"], ["temp_dir", "°C", "tmo_ventil"], ["temp_dif", "°C", "tmo_ventil"], ["temp_dome", "°C", "tmo_ventil"], ["temp_case", "°C", "tmo_ventil"]]
+
+}]

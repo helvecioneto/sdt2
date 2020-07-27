@@ -6,7 +6,7 @@ from modules.split_data import split_data
 
 def main_menu():
     top_header('Main Menu')
-    print('\t\tPlease select one option')
+    print('\t\tPlease select one option: ')
     choice = input("""
                   1: Anemometric Data
                   2: Solar Data

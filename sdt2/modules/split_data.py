@@ -39,11 +39,13 @@ def process_files(files):
         except:
             print('Error in Meteorological variables: ', file)
         try:
-             solarDF = df[solarH]
+            process_solar(df[solarH],file)
         except:
             print('Error in Solarimetric variables: ', file)
-
+        ## Continue
         input("Press Enter to Continue:")
+        ## Clean screan and print first 20 
+        os.system('cls' if os.name == 'nt' else 'clear')
     print("All files are translated!!")
     
 def header():
@@ -78,8 +80,6 @@ def process_meteo(meteo,file):
                   'tp_sfc': 'first', 'humid': 'first', 'press': 'first','rain': 'sum',
                   'ws10_avg': 'mean','ws10_std': 'std', 'wd10_avg': 'median', 'wd10_std': 'std'}
     
-    
-    
     #Mask to not resample incorrect values
     Maska = meteo[(meteo != 3333.0) & (meteo != -5555) & (meteo != np.nan)]
     
@@ -111,7 +111,7 @@ def process_meteo(meteo,file):
     ## Extract month string
     month = (meteorological['timestamp'][0].strftime('%m'))
     stat_ = file.parent.parent.name
-    header_path = config[0]['LOG_HEADER']+stat_+'/'+year_+'/'+file_[:-4]+'.head'   
+    header_path = config[0]['LOG_HEADER']+stat_+'/'+year_+'/'+file_[:-4]+'.met_head'   
     output = config[0]['OUTPUT']+stat_+'/'+year_+'/'+stat_[:-3]+'_'+year_+'_'+month+'_MD_formatado.csv' 
      
 
@@ -156,11 +156,68 @@ def process_meteo(meteo,file):
 
     ## Clean screan and print first 20 
     os.system('cls' if os.name == 'nt' else 'clear')
+    print('Processing File -> ',file)
+    print('\nSplit weather data!: ')
     print(meteorological.head(20))
     
     ## Save file
     meteorological.to_csv(output,index=False)
 
+def process_solar(solar,file):
+
+    config = load_config()
+    ## Create Timestamp    
+    solar['timestamp'] = pd.to_datetime(solar.year, format='%Y') + pd.to_timedelta(solar.day - 1, unit='d')  + pd.to_timedelta(solar['min'], unit='m')
+
+    ## Header check
+    file_ = file.name
+    year_ = file.parent.name
+    month = (solar['timestamp'][0].strftime('%m'))
+    stat_ = file.parent.parent.name
+    header_path = config[0]['LOG_HEADER']+stat_+'/'+year_+'/'+file_[:-4]+'.solar_head'  
+    output = config[0]['OUTPUT']+stat_+'/'+year_+'/'+stat_[:-3]+'_'+year_+'_'+month+'_SD_formatado.csv' 
+    
+    ### Create dir of headers if not exist
+    if not os.path.exists(os.path.dirname(header_path)):
+        try:
+            os.makedirs(os.path.dirname(header_path))
+        except OSError as exc: # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+    ## If file exist
+    try:
+        with open(header_path) as f:
+            column = json.load(f)
+            columns = column['SOLAR_HEADER']
+        # Do something with the file
+    except:
+        ## Write file
+        with open(header_path, 'w+') as file:
+            file.write(json.dumps(dict( SOLAR_HEADER = config[0]['SOLAR_HEADER'])))
+            columns = config[0]['SOLAR_HEADER']
+            
+    ## Remove timestamp
+    solar = solar.drop(columns='timestamp')
+    
+    # Create Multindex based in columns from header_log
+    mux = pd.MultiIndex.from_tuples(columns)
 
     
+    # Fix multindex on dataframe
+    solar.columns = mux
+    
+    
+    ### Create dir of output if not exist
+    if not os.path.exists(os.path.dirname(output)):
+        try:
+            os.makedirs(os.path.dirname(output))
+        except OSError as exc: # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
 
+    ## Clean screan and print first 20 
+    print('\nSplit solar data! :')
+    print(solar.head(20))
+    
+    ## Save file
+    solar.to_csv(output,index=False)
