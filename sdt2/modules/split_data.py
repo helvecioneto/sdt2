@@ -10,6 +10,21 @@ import numpy as np
 import warnings
 warnings.filterwarnings('ignore')
 
+
+## Global variables
+config = load_config()
+
+## Used to copy header
+aux = config[0]['MET_HEADER'].copy()
+
+meteoH = config[0]['meteoH']
+solarH = config[0]['solarH']
+BRUTE_HEADER = config[0]['BRUTE_HEADER']
+MET_HEADER = config[0]['MET_HEADER']
+SOLAR_HEADER = config[0]['SOLAR_HEADER']
+MET_UPDATE = config[0]['MET_UPDATE']
+
+
 def split_data():
 
     top_header('Main Menu > Solarimetric > Split Data')
@@ -19,46 +34,25 @@ def split_data():
     process_files(files)
     
 def process_files(files):
-    headers = header()
+
     for file in sorted(files):
         df = pd.read_table(file,header=None, sep=',')
-        df.columns = headers[0]
-        df = df.rename(columns=str.lower)
-
-        meteoH = ['id', 'year', 'day', 'min', 'temp_sfc', 'humid',
-                'press', 'prec', 'ws10_avg', 'wd10_avg', 'wd10_std']
-        
-        solarH =    ['id','year','day','min','global_avg','global_std','global_max','global_min',
-                    'diffuse_avg','diffuse_std','diffuse_max','diffuse_min','par_avg','par_std','par_max',
-                    'par_min','lux_avg','lux_std','lux_max','lux_min','direct_avg','direct_std',
-                    'direct_max','direct_min','lw_avg','lw_std','lw_max','lw_min','temp_global',
-                    'temp_direct','temp_diffuse','temp_dome','temp_case']
+        df.columns = BRUTE_HEADER
          
-        try:
-            process_meteo(df[meteoH],file)
-        except:
-            print('Error in Meteorological variables: ', file)
-        try:
-            process_solar(df[solarH],file)
-        except:
-            print('Error in Solarimetric variables: ', file)
+#        try:
+        process_meteo(df[meteoH].rename(columns=str.lower),file)
+#        except:
+#            print('Error in Meteorological variables: ', file)
+#        try:
+        process_solar(df[solarH].rename(columns=str.lower),file)
+#        except:
+#            print('Error in Solarimetric variables: ', file)
         ## Continue
         input("Press Enter to Continue:")
         ## Clean screan and print first 20 
         os.system('cls' if os.name == 'nt' else 'clear')
     print("All files are translated!!")
     
-def header():
-    config = load_config()
-    header1_ = config[0]['FIX_HEADER']
-    header2_ = config[0]['HEADER2']  
-    
-    header1 = pd.read_excel(header1_)
-    header2 = pd.read_excel(header2_,sheet_name='Cabeçalhos', header=None)
-    
-    solar_header = header2[3:6]
-    met_header = header2[22:25].iloc[:,0:12]
-    return header1.columns.values, met_header.values, solar_header.values
 
 def process_meteo(meteo,file):
     config = load_config()
@@ -114,6 +108,7 @@ def process_meteo(meteo,file):
     header_path = config[0]['LOG_HEADER']+stat_+'/'+year_+'/'+file_[:-4]+'.met_head'   
     output = config[0]['OUTPUT']+stat_+'/'+year_+'/'+stat_[:-3]+'_'+year_+'_'+month+'_MD_formatado.csv' 
      
+    
 
     ### Create dir of headers if not exist
     if not os.path.exists(os.path.dirname(header_path)):
@@ -122,46 +117,61 @@ def process_meteo(meteo,file):
         except OSError as exc: # Guard against race condition
             if exc.errno != errno.EEXIST:
                 raise
-
-    ## If file exist
-    try:
-        with open(header_path) as f:
-            column = json.load(f)
-            columns = column['MET_HEADER']
-        # Do something with the file
-    except IOError:
-        ## Write file
-        with open(header_path, 'w+') as file:
-            file.write(json.dumps(dict( MET_HEADER = config[0]['MET_HEADER'])))
-            columns = config[0]['MET_HEADER']
-            
-            
-    ## Remove timestamp
-    meteorological = meteorological.drop(columns='timestamp')
-     
-    # Create Multindex based in columns from header_log
-    mux = pd.MultiIndex.from_tuples(columns)
-
-    # Fix multindex on dataframe
-    meteorological.columns = mux
-    
-    
-    ### Create dir of output if not exist
+                
+        ### Create dir of output if not exist
     if not os.path.exists(os.path.dirname(output)):
         try:
             os.makedirs(os.path.dirname(output))
         except OSError as exc: # Guard against race condition
             if exc.errno != errno.EEXIST:
                 raise
+ 
+    ## Update Global MET_HEADER
+    global MET_HEADER
+    # For key in MET_UPDATE Check
+    for k in MET_UPDATE:   
+        
+        if len(meteorological.loc[meteorological['timestamp'] >= k[0]]) > 0:
+            # Update Global variable
+            for idx, item in enumerate(MET_HEADER):
+                if k[1][0] in item[0]:
+                    MET_HEADER[idx] = k[1]
+            
+            # Separete files
+            met1 = meteorological.loc[meteorological['timestamp'] >= k[0]]
+            # Create Multindex based in columns from header_log
+            mux = pd.MultiIndex.from_tuples(MET_HEADER)
+            # Fix multindex on dataframe
+            met1.columns = mux
+            
+            ## Second file
+            met2 = meteorological.loc[meteorological['timestamp'] < k[0]]
+            mux2 = pd.MultiIndex.from_tuples(aux)
+            met2.columns = mux2
+            
+    else:
+            # Create Multindex based in columns from header_log
+            mux = pd.MultiIndex.from_tuples(MET_HEADER)
+            # Fix multindex on dataframe
+            meteorological.columns = mux
+                
+                         
+    if len(met1) == len(meteorological):
+        # Clean screan and print first 20 
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print('Processing File -> ',file)
+        print('\nSplit weather data!: ')
+        print(meteorological)
+        meteorological.to_csv(output,index=False)
+    else:
+        ## Save files
+        print(output)
+        print(met2.head(20),'\n')
+        print(output[:-4]+str('_02.csv'))
+        print(met1.head(20))
+        met1.to_csv(output[:-4]+str('_02.csv'),index=False)
+        met2.to_csv(output,index=False)
 
-    ## Clean screan and print first 20 
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print('Processing File -> ',file)
-    print('\nSplit weather data!: ')
-    print(meteorological.head(20))
-    
-    ## Save file
-    meteorological.to_csv(output,index=False)
 
 def process_solar(solar,file):
 
@@ -169,6 +179,12 @@ def process_solar(solar,file):
     ## Create Timestamp    
     solar['timestamp'] = pd.to_datetime(solar.year, format='%Y') + pd.to_timedelta(solar.day - 1, unit='d')  + pd.to_timedelta(solar['min'], unit='m')
 
+    # Change position of timestamp    
+    cols = list(solar)
+    cols.insert(1, cols.pop(cols.index('timestamp')))
+    solar = solar.ix[:, cols]
+
+    
     ## Header check
     file_ = file.name
     year_ = file.parent.name
@@ -184,20 +200,9 @@ def process_solar(solar,file):
         except OSError as exc: # Guard against race condition
             if exc.errno != errno.EEXIST:
                 raise
-    ## If file exist
-    try:
-        with open(header_path) as f:
-            column = json.load(f)
-            columns = column['SOLAR_HEADER']
-        # Do something with the file
-    except:
-        ## Write file
-        with open(header_path, 'w+') as file:
-            file.write(json.dumps(dict( SOLAR_HEADER = config[0]['SOLAR_HEADER'])))
-            columns = config[0]['SOLAR_HEADER']
-            
-    ## Remove timestamp
-    solar = solar.drop(columns='timestamp')
+                
+    
+    columns = SOLAR_HEADER
     
     # Create Multindex based in columns from header_log
     mux = pd.MultiIndex.from_tuples(columns)
@@ -217,7 +222,7 @@ def process_solar(solar,file):
 
     ## Clean screan and print first 20 
     print('\nSplit solar data! :')
-    print(solar.head(20))
+#    print(solar.head(20))
     
     ## Save file
     solar.to_csv(output,index=False)
