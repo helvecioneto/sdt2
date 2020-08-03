@@ -37,7 +37,10 @@
                     ["temp_glo", "°C", "tmo_ventil"], ["temp_dir", "°C", "tmo_ventil"], ["temp_dif", "°C", "tmo_ventil"], ["temp_dome", "°C", "tmo_ventil"], ["temp_case", "°C", "tmo_ventil"]],
     
     "_comment": "UPDATE HEADERS",        
-    "MET_UPDATE": [["2004-08-01 00:40:00",["ws10_std", "m/s", "teste1"]],
-                   ["2004-08-01 00:40:00",["ws10_std", "m/s", "teste2"]]]
+    "MET_UPDATE": [["2004-08-01 00:40:00",["ws10_std", "m/s", "teste1"],["wd10_avg", "m/s", "teste1212"]],
+                   ["2009-08-02 00:40:00",["ws10_avg", "m/s", "testasdde2"]]],
+                   
+    "SOL_UPDATE": [["2004-08-01 00:40:00",["lux_avg", "klux", "teste1"],["phl_termpil", "m/s", "teste1212"]],
+                   ["2009-08-02 00:40:00",["ws10_avg", "m/s", "testasdde2"]]]
     
 }]
