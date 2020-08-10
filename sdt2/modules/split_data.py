@@ -8,6 +8,7 @@ import errno
 import os
 import numpy as np
 import warnings
+import logging
 warnings.filterwarnings('ignore')
 
 ## Global variables
@@ -40,7 +41,8 @@ def split_data():
     process_files(files)
     
 def process_files(files):
-
+    logging.basicConfig(filename='warning_logs.txt', filemode='w', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+    
     for file in sorted(files):
         df = pd.read_table(file,header=None, sep=',')
         df.columns = BRUTE_HEADER
@@ -49,10 +51,12 @@ def process_files(files):
             os.system('cls' if os.name == 'nt' else 'clear')
             process_meteo(df[meteoH].rename(columns=str.lower),file)
         except:
+            logging.warning('Error in Meteorological variables at file: '+str(file)+'')
             print('Error in Meteorological variables: ', file)
         try:
             process_solar(df[solarH].rename(columns=str.lower),file)
         except:
+            logging.warning('Error in Solarimetric variables at file: '+str(file)+'')
             print('Error in Solarimetric variables: ', file)
         ## Continue
         input("Press Enter to Continue:")
@@ -71,16 +75,8 @@ def process_meteo(meteo,file):
     
     ## Rename columns
     meteo.rename(columns={'day':'jday','temp_sfc':'tp_sfc','prec':'rain'},inplace=True)
-    
-#    # Conversion types
-#    conversion = {'id': 'first', 'year': 'first', 'jday': 'first', 'min': 'first',
-#                  'tp_sfc': 'first', 'humid': 'first', 'press': 'first',
-#                  'rain': 'sum', 'ws10_avg': 'mean', 'wd10_avg': 'median', 'wd10_std': lambda x: np.sqrt(sum(x.values**2))}
-#    
-#    conversion = {'id': 'first', 'year': 'first', 'jday': 'first', 'min': 'first',
-#                  'tp_sfc': 'first', 'humid': 'first', 'press': 'first','rain': 'sum',
-#                  'ws10_avg': 'mean','ws10_std': 'std', 'wd10_avg': 'median', 'wd10_std': 'std'}
-    
+
+    # Converstions    
     conversion = {'id': 'first', 'year': 'first', 'jday': 'first', 'min': 'first',
                   'tp_sfc': 'first', 'humid': 'first', 'press': 'first','rain': 'sum',
                   'ws10_avg': 'mean','ws10_std': 'std', 'wd10_avg': 'median', 'wd10_std': lambda x: yamartino(x.values)}

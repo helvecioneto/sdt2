@@ -1,0 +1,2 @@
+10-Aug-20 15:14:36 - Error in Meteorological variables at file: /Users/helvecioneto/workspace_spyder/sdt2/input/BRB-10/2004/BRB0408ED_prequalificado.dat
+10-Aug-20 15:14:39 - Error in Meteorological variables at file: /Users/helvecioneto/workspace_spyder/sdt2/input/BRB-10/2004/BRB0409ED_prequalificado.dat
