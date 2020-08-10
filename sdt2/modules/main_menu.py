@@ -6,7 +6,7 @@ from modules.split_data import split_data
 
 def main_menu():
     top_header('Main Menu')
-    print('\t\tPlease select one option: ')
+    print('\t\tPlease select an option: ')
     choice = input("""
                   1: Anemometric Data
                   2: Solar Data
@@ -32,7 +32,7 @@ def anemomectric():
 
 def solarimetric():
     top_header('Main Menu > Solarimetric')
-    print('\t\tPlease select one option')
+    print('\t\tPlease select an option')
     choice = input("""
                   1: Split (Ambiental/Solar)
                   2: Create Headers Log
