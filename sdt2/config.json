@@ -43,7 +43,7 @@
     "MET_UPDATE": [[["BRB"],"2004-08-01 00:40:00",["tp_sfc", "\u00b0C", "tmo_aspira"], ["humid", "%", "hgr_aspira"], ["press", "mb", "bar_atmosf"], ["rain", "mm", "plv_tipbuk"], ["ws10_avg", "m/s", "anm_propel"], ["ws10_std", "m/s", "anm_propel"], ["wd10_avg", "deg", "anm_propel"], ["wd10_std", "deg", "anm_propel"]],
                    [["BSB"],"2009-08-02 00:40:00",["ws10_avg", "m/s", "testasdde2"]]],
                    
-    "SOL_UPDATE": [[["BRB"],"2004-08-01 00:40:00",["lux_avg", "klux", "teste1"],["phl_termpil", "m/s", "teste1212"]],
-                   [["BRB"],"2009-08-02 00:40:00",["ws10_avg", "m/s", "testasdde2"]]]
+    "SOL_UPDATE": [[["BRB"],"2004-08-01 00:40:00",["glo_avg", "W/m2", "pir_termpil"], ["glo_std", "W/m2", "pir_termpil"], ["glo_max", "W/m2", "pir_termpil"], ["glo_min", "W/m2", "pir_termpil"], ["dif_avg", "W/m2", "pir_rastsbr"], ["dif_std", "W/m2", "pir_rastsbr"], ["dif_max", "W/m2", "pir_rastsbr"], ["dif_min", "W/m2", "pir_rastsbr"], ["par_avg", "\u00b5mols/m2.s", "par_fotodio"], ["par_std", "\u00b5mols/m2.s", "par_fotodio"], ["par_max", "\u00b5mols/m2.s", "par_fotodio"], ["par_min", "\u00b5mols/m2.s", "par_fotodio"], ["lux_avg", "klux", "lux_fotodio"], ["lux_std", "klux", "lux_fotodio"], ["lux_max", "klux", "lux_fotodio"], ["lux_min", "klux", "lux_fotodio"], ["dir_avg", "W/m2", "phl_termpil"], ["dir_std", "W/m2", "phl_termpil"], ["dir_max", "W/m2", "phl_termpil"], ["dir_min", "W/m2", "phl_termpil"], ["lw_avg", "W/m2", "prg_rastsbr"], ["lw_std", "W/m2", "prg_rastsbr"], ["lw_max", "W/m2", "prg_rastsbr"], ["lw_min", "W/m2", "prg_rastsbr"], ["temp_glo", "\u00b0C", "tmo_ventil"], ["temp_dir", "\u00b0C", "tmo_ventil"], ["temp_dif", "\u00b0C", "tmo_ventil"], ["temp_dome", "\u00b0C", "tmo_ventil"], ["temp_case", "\u00b0C", "tmo_ventil"]],
+                   [["BSB"],"2009-08-02 00:40:00",["ws10_avg", "m/s", "testasdde2"]]]
     
 }]

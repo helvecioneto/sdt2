@@ -5,6 +5,7 @@ __pycache__/
 
 #Out
 input/
+output/
 .DS_Store
 
 # C extensions
