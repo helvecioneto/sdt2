@@ -79,7 +79,7 @@ def process_meteo(meteo,file):
     # Converstions    
     conversion = {'id': 'first', 'year': 'first', 'jday': 'first', 'min': 'first',
                   'tp_sfc': 'first', 'humid': 'first', 'press': 'first','rain': 'sum',
-                  'ws10_avg': 'mean','ws10_std': 'std', 'wd10_avg': 'median', 'wd10_std': lambda x: yamartino(x.values)}
+                  'ws10_avg': 'mean','ws10_std': 'std', 'wd10_avg': lambda x: arctan(x.values), 'wd10_std': lambda x: yamartino(x.values)}
     
     #Mask to not resample incorrect values
     Maska = meteo[(meteo != 3333.0) & (meteo != -5555) & (meteo != np.nan)]
@@ -127,6 +127,11 @@ def process_meteo(meteo,file):
     met1 = []
     met2 = []
 
+
+    ##Change ID by name of station
+    meteorological['id'] = stat_[:-3]
+    
+#    print(meteorological['wd10_std'].max())
 
     # Create Multindex based in columns from header_log
     mux = pd.MultiIndex.from_tuples(MET_HEADER)
@@ -181,6 +186,8 @@ def process_meteo(meteo,file):
         # Clean screan and print first 20 
         print('Processing File -> ',file)
         print('\nSplit weather data!: ')
+        ## Drop second line of multindex
+        meteorological.columns = meteorological.columns.droplevel(1)
         print(meteorological)
         meteorological.to_csv(output,index=False)
         
@@ -189,15 +196,22 @@ def process_meteo(meteo,file):
         # Clean screan and print first 20 
         ## Save files
         print('\nSplit weather data!: ',output)
+        ## Drop second line of multindex
+        out_met.columns = out_met.columns.droplevel(1)
         print(out_met,'\n')
+        
         out_met.to_csv(output,index=False)
     else:
         # Clean screan and print first 20 
         print('Processing File -> ',file)
         print('\nSplit weather data!: ',output)
+        ## Drop second line of multindex
+        meteorological.columns = meteorological.columns.droplevel(1)
         print(meteorological)
+        
         meteorological.to_csv(output,index=False)
 
+# Yamartin mean
 def yamartino(thetalist):
     s=0
     c=0
@@ -211,6 +225,27 @@ def yamartino(thetalist):
     eps=(1-(s**2+c**2))**0.5
     sigma=asin(eps)*(1+(2.0/3.0**0.5-1)*eps**3)
     return degrees(sigma)
+
+## Calc arctan
+def arctan(thetalist):
+    s=0
+    c=0
+    n=0.0
+    for theta in thetalist:
+        s=s+sin(radians(theta))
+        c=c+cos(radians(theta))
+        n+=1
+    s=s/n
+    c=c/n
+    ## Calc arctan
+    arctan = np.arctan(s/c)
+    ## Convert rad to degress
+    arctan = degrees(arctan)
+    # Check arctan negative values
+    if arctan < 0:
+        arctan = arctan + 180
+    
+    return arctan
 
 def process_solar(solar,file):
 
@@ -243,6 +278,9 @@ def process_solar(solar,file):
     # For key in SOLAR_UPDATE Check    
     sol1 = []
     sol2 = []
+    
+    ##Change ID by name of station
+    solar['id'] = stat_[:-3]
     
     # Create Multindex based in columns from header_log
     mux = pd.MultiIndex.from_tuples(SOLAR_HEADER)
@@ -297,17 +335,23 @@ def process_solar(solar,file):
         # Clean screan and print first 20 
         print('Processing File -> ',file)
         print('\nSplit weather data!: ')
+        # Drop second level of multindex
+        solar.columns = solar.columns.droplevel(1)
         print(solar)
         solar.to_csv(output,index=False)
     elif (len(out_sol)) > 0:
         # Clean screan and print first 20 
         ## Save files
         print('\nSplit weather data!: ',output)
+        # Drop second level of multindex
+        out_sol.columns = out_sol.columns.droplevel(1)
         print(out_sol)
         out_sol.to_csv(output,index=False)
     else:
         # Clean screan and print first 20 
         print('Processing File -> ',file)
         print('\nSplit weather data!: ',output)
+        # Drop second level of multindex
+        solar.columns = solar.columns.droplevel(1)
         print(solar)
         solar.to_csv(output,index=False)
