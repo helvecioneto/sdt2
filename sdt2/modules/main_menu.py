@@ -3,6 +3,7 @@
 import sys
 from modules.top_header import top_header
 from modules.split_data import split_data
+from modules.load_stations import load_stations_02
 
 def main_menu():
     top_header('Main Menu')
@@ -10,6 +11,7 @@ def main_menu():
     choice = input("""
                   1: Anemometric Data
                   2: Solar Data
+                  3: Sky Camera Data
                   Q: Quit
                   Please enter your choice: """)
 
@@ -17,10 +19,12 @@ def main_menu():
         anemomectric()
     elif choice == "Solar Data" or choice =="2":
         solarimetric()
+    elif choice == "Sky Camera Data" or choice =="3":
+        skycamera()
     elif choice=="Q" or choice=="q":
         sys.exit
     else:
-        print("You must only select either 1 or 2")
+        print("You must only select one option")
         print("Please try again")
         main_menu()
     
@@ -50,4 +54,9 @@ def solarimetric():
         print("You must only select either 1 or 2")
         print("Please try again")
         main_menu()
+        
+def skycamera():
+    top_header('Main Menu > Sky Camera')
+    print('\t\tPlease select an option')
+    load_stations_02()
     

@@ -243,7 +243,7 @@ def arctan(thetalist):
     arctan = degrees(arctan)
     # Check arctan negative values
     if arctan < 0:
-        arctan = arctan + 180
+        arctan = arctan + 360
     
     return arctan
 

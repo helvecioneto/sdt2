@@ -2,6 +2,7 @@
 #from modules.load_config import load_config
 from os import listdir
 from modules.top_header import top_header
+from camera.process_camera import process_files
 from pathlib import Path
 
 def load_files(path):
@@ -32,3 +33,12 @@ def load_files(path):
 def get_files(path):
     files = {p.resolve() for p in Path(path).rglob("**/*" ) if p.suffix in ['.dat']}
     return files
+
+def get_files_02(path):
+    files = {p.resolve() for p in Path(path).rglob("**/*" ) if p.suffix in ['.txt']}
+    return files
+
+
+def load_files_02(path):
+    lista_files = get_files_02(path)
+    process_files(lista_files)

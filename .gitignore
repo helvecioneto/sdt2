@@ -5,6 +5,7 @@ __pycache__/
 
 #Out
 input/
+input02/
 output/
 .DS_Store
 
