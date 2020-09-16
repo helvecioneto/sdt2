@@ -43,9 +43,8 @@ def process_files(path):
     dfs = [group for _,group in groups]
     
     for i in dfs:
-
         output_path = load_config()[0]['OUTPUT'] + path[-3:] + '/Cobertura_Nuvens/' + str(i['timestamp'].dt.year.unique()[0]) + '/'
-        output_file = path[-3:]+'_'+str(i['timestamp'].dt.year.unique()[0])+'_'+str(i['timestamp'].dt.strftime('%m').unique()[0])+'_CN_formatado.csv'
+        output_file = path[-3:]+'_'+str(i['timestamp'].dt.year.unique()[0])+'_'+str(i['timestamp'].dt.strftime('%m').unique()[0])+'_CD_formatado.csv'
 
             ### Create dir of output if not exist
         if not os.path.exists(os.path.dirname(output_path)):
