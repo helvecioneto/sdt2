@@ -111,7 +111,7 @@ def process_meteo(meteo,file):
     ## Extract month string
     month = (meteorological['timestamp'][0].strftime('%m'))
     stat_ = file.parent.parent.name 
-    output = config[0]['OUTPUT']+stat_[:-3]+'/Meteorologicos/'+year_+'/'+stat_[:-3]+'_'+year_+'_'+month+'_MD_formatado.csv'
+    output = config[0]['OUTPUT']+stat_+'/Meteorologicos/'+year_+'/'+stat_+'_'+year_+'_'+month+'_MD_formatado.csv'
               
         ### Create dir of output if not exist
     if not os.path.exists(os.path.dirname(output)):
@@ -129,7 +129,7 @@ def process_meteo(meteo,file):
 
 
     ##Change ID by name of station
-    meteorological['id'] = stat_[:-3]
+    meteorological['id'] = stat_
     
 #    print(meteorological['wd10_std'].max())
 
@@ -144,7 +144,7 @@ def process_meteo(meteo,file):
     if MET_UPDATE != None:
         for k in MET_UPDATE:
             ## Check if Updat is the station
-            if (k[0][0] == stat_[:-3]):
+            if (k[0][0] == stat_):
                 if len(meteorological.loc[meteorological['timestamp'] >= k[1]]) > 0:
                     for kk in k:
                         # Update Global variable
@@ -263,7 +263,7 @@ def process_solar(solar,file):
     year_ = file.parent.name
     month = (solar['timestamp'][0].strftime('%m'))
     stat_ = file.parent.parent.name
-    output = config[0]['OUTPUT']+stat_[:-3]+'/Solarimetricos/'+year_+'/'+stat_[:-3]+'_'+year_+'_'+month+'_SD_formatado.csv'
+    output = config[0]['OUTPUT']+stat_+'/Solarimetricos/'+year_+'/'+stat_+'_'+year_+'_'+month+'_SD_formatado.csv'
     
     ### Create dir of output if not exist
     if not os.path.exists(os.path.dirname(output)):
@@ -280,7 +280,7 @@ def process_solar(solar,file):
     sol2 = []
     
     ##Change ID by name of station
-    solar['id'] = stat_[:-3]
+    solar['id'] = stat_
     
     # Create Multindex based in columns from header_log
     mux = pd.MultiIndex.from_tuples(SOLAR_HEADER)
@@ -293,7 +293,7 @@ def process_solar(solar,file):
     if SOL_UPDATE != None:
         for k in SOL_UPDATE:
             ## Check if Updat is the station
-            if (k[0][0] == stat_[:-3]):
+            if (k[0][0] == stat_):
                 if len(solar.loc[solar['timestamp'] >= k[1]]) > 0:
                     for kk in k:
                         # Update Global variable

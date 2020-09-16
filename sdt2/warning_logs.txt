@@ -1,1 +1,0 @@
-30-Aug-20 09:51:35 - Error in Solarimetric variables at file: /Users/helvecioneto/workspace_spyder/sdt2/input/BRB-10/2019/BRB1901ED_prequalificado.dat
