@@ -1,5 +1,6 @@
 [{  "INPUT":"../input/",
     "INPUT02":"../input02/",
+    "AUTO_DATA":"../brutos/",
     "OUTPUT":"../output/",
     "LOG_HEADER":"../header_logs/",
     

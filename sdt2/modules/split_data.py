@@ -130,8 +130,6 @@ def process_meteo(meteo,file):
 
     ##Change ID by name of station
     meteorological['id'] = stat_
-    
-#    print(meteorological['wd10_std'].max())
 
     # Create Multindex based in columns from header_log
     mux = pd.MultiIndex.from_tuples(MET_HEADER)

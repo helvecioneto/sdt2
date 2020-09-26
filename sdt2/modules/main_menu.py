@@ -4,6 +4,7 @@ import sys
 from modules.top_header import top_header
 from modules.split_data import split_data
 from modules.load_stations import load_stations_02
+from modules.automatic import load_data_type
 
 def main_menu():
     top_header('Main Menu')
@@ -12,6 +13,7 @@ def main_menu():
                   1: Anemometric Data
                   2: Solar Data
                   3: Sky Camera Data
+                  4: Automatic detection
                   Q: Quit
                   Please enter your choice: """)
 
@@ -21,14 +23,14 @@ def main_menu():
         solarimetric()
     elif choice == "Sky Camera Data" or choice =="3":
         skycamera()
+    elif choice == "Automatic detection" or choice =="4":
+        automatic()
     elif choice=="Q" or choice=="q":
         sys.exit
     else:
         print("You must only select one option")
         print("Please try again")
         main_menu()
-    
-
 
     
 def anemomectric():
@@ -59,4 +61,9 @@ def skycamera():
     top_header('Main Menu > Sky Camera')
     print('\t\tPlease select an option')
     load_stations_02()
+    
+def automatic():
+    top_header('Main Menu > Detect and format ')
+    print('\t\tPlease select an option')
+    load_data_type()
     
