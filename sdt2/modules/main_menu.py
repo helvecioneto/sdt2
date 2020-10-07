@@ -5,11 +5,13 @@ from modules.top_header import top_header
 from modules.split_data import split_data
 from modules.load_stations import load_stations_02
 from modules.automatic import load_data_type
+from modules.format_new_data import format_data, connection
 
 def main_menu():
     top_header('Main Menu')
     print('\t\tPlease select an option: ')
     choice = input("""
+                  0: Format Data
                   1: Anemometric Data
                   2: Solar Data
                   3: Sky Camera Data
@@ -17,7 +19,9 @@ def main_menu():
                   Q: Quit
                   Please enter your choice: """)
 
-    if choice == "Anemometric Data" or choice =="1":
+    if choice == "Format Data" or choice =="0":
+        format_new_data()
+    elif choice == "Anemometric Data" or choice =="1":
         anemomectric()
     elif choice == "Solar Data" or choice =="2":
         solarimetric()
@@ -32,6 +36,26 @@ def main_menu():
         print("Please try again")
         main_menu()
 
+
+def format_new_data():
+    top_header('Main Menu > Format Data')
+    print('\t\tPlease select an option')
+    
+    choice = input("""
+                  1: Connect into FTP
+                  2: Offline format
+                  Q: Quit
+                  Please enter your choice: """)
+
+    if choice == "Connect into FTP" or choice =="1":
+        connection()
+    elif choice == "Offline format" or choice =="2":
+        format_data()
+    elif choice=="Q" or choice=="q":
+        sys.exit
+    else:
+        print("You must only select either 1 or 2")
+        print("Please try again")
     
 def anemomectric():
     print('Anemometric')
