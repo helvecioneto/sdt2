@@ -8,6 +8,7 @@ input/
 input02/
 output/
 brutos/
+temp/
 .DS_Store
 
 # C extensions

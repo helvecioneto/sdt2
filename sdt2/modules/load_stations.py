@@ -8,7 +8,6 @@ config = load_config()
 inputf = config[0]['INPUT']
 inputf2 = config[0]['INPUT02']
 
-
 def load_stations():
     file_names = [fn for fn in listdir(inputf) if not fn.startswith('.')]
     count = -1
