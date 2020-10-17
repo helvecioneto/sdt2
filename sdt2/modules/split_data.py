@@ -2,7 +2,9 @@
 from modules.load_stations import load_stations
 from modules.load_config import load_config
 from modules.top_header import top_header
-from math import sin, cos, radians, asin, degrees
+from math import sin, cos, asin ,radians, degrees
+# from cmath import sin, cos, asin
+# from math import radians, degrees
 import pandas as pd
 import errno
 import os
@@ -46,7 +48,7 @@ def process_files(files):
     for file in sorted(files):
         df = pd.read_table(file,header=None, sep=',')
         df.columns = BRUTE_HEADER
-         
+        
         try:
             os.system('cls' if os.name == 'nt' else 'clear')
             process_meteo(df[meteoH].rename(columns=str.lower),file)
@@ -84,9 +86,11 @@ def process_meteo(meteo,file):
     #Mask to not resample incorrect values
     Maska = meteo[(meteo != 3333.0) & (meteo != -5555) & (meteo != np.nan)]
     
-    
      #Apply ressample based conversion
-    Maska = Maska.resample('10min',how=conversion)
+    Maska = Maska.resample('10min').agg(conversion)
+    
+    
+    # frame.resample('1H').agg({'radiation': np.sum, 'tamb': np.mean})
     
     ## Unmask values
     Unmask = meteo[(meteo == 3333.0)].resample('10min').first()
@@ -210,6 +214,7 @@ def process_meteo(meteo,file):
         meteorological.to_csv(output,index=False)
 
 # Yamartin mean
+# Yamartin mean
 def yamartino(thetalist):
     s=0
     c=0
@@ -220,9 +225,12 @@ def yamartino(thetalist):
         n+=1
     s=s/n
     c=c/n
-    eps=(1-(s**2+c**2))**0.5
-    sigma=asin(eps)*(1+(2.0/3.0**0.5-1)*eps**3)
-    return degrees(sigma)
+    try:
+        eps=(1-(s**2+c**2))**0.5
+        sigma=asin(eps)*(1+(2.0/3.0**0.5-1)*eps**3)
+        return degrees(sigma)
+    except:
+        return -9999
 
 ## Calc arctan
 def arctan(thetalist):
@@ -254,8 +262,7 @@ def process_solar(solar,file):
     # Change position of timestamp    
     cols = list(solar)
     cols.insert(1, cols.pop(cols.index('timestamp')))
-    solar = solar.ix[:, cols]
-
+    solar = solar.loc[:, cols]
     
     ## Header check
     year_ = file.parent.name

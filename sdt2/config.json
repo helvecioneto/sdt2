@@ -25,32 +25,42 @@
                     "Temp_Direct","Temp_Diffuse","Temp_Dome","Temp_Case"],
                     
     "_comment": "FIX DEFAULT HEADERS",
-    "MET_HEADER": [["sigla", "", ""],["timestamp", "", ""], ["year", "", ""], ["day", "", ""], ["min", "", ""],
-                   ["tp_sfc", "\u00b0C", "tmo_aspira"], ["humid", "%", "hgr_aspira"], ["press", "mb", "bar_atmosf"], ["rain", "mm", "plv_tipbuk"],
-                   ["ws10_avg", "m/s", "anm_sonico"], ["ws10_std", "m/s", "anm_sonico"], ["wd10_avg", "deg", "anm_sonico"], ["wd10_std", "deg", "anm_sonico"]],
+    "MET_HEADER": [["acronym", "", ""],["timestamp", "", ""], ["year", "", ""], ["day", "", ""], ["min", "", ""],
+                   ["tp_sfc", "\u00b0C", "tmo_aspirat"], ["humid_sfc", "%", "hgr_aspirat"], ["press", "mb", "bar_atmosph"], ["rain", "mm", "plv_tipbuk"],
+                   ["ws10_avg", "m/s", "anm_propel"], ["ws10_std", "m/s", "anm_propel"], ["wd10_avg", "deg", "anm_propel"], ["wd10_std", "deg", "anm_propel"]],
                    
     
-    "SOLAR_HEADER": [["sigla", "", ""],["timestamp", "", ""], ["year", "", ""], ["day", "", ""], ["min", "", ""], 
-                    ["glo_avg", "W/m2", "pir_termpil"], ["glo_std", "W/m2", "pir_termpil"], ["glo_max", "W/m2", "pir_termpil"], ["glo_min", "W/m2", "pir_termpil"], 
-                    ["dif_avg", "W/m2", "pir_rastsbr"], ["dif_std", "W/m2", "pir_rastsbr"], ["dif_max", "W/m2", "pir_rastsbr"], ["dif_min", "W/m2", "pir_rastsbr"], 
-                    ["par_avg", "µmols/m2.s", "par_fotodio"], ["par_std", "µmols/m2.s", "par_fotodio"], ["par_max", "µmols/m2.s", "par_fotodio"], ["par_min", "µmols/m2.s", "par_fotodio"], 
-                    ["lux_avg", "klux", "lux_fotodio"], ["lux_std", "klux", "lux_fotodio"], ["lux_max", "klux", "lux_fotodio"], ["lux_min", "klux", "lux_fotodio"], 
-                    ["dir_avg", "W/m2", "phl_termpil"], ["dir_std", "W/m2", "phl_termpil"], ["dir_max", "W/m2", "phl_termpil"], ["dir_min", "W/m2", "phl_termpil"], 
-                    ["lw_avg", "W/m2", "prg_rastsbr"], ["lw_std", "W/m2", "prg_rastsbr"], ["lw_max", "W/m2", "prg_rastsbr"], ["lw_min", "W/m2", "prg_rastsbr"], 
-                    ["temp_glo", "°C", "tmo_ventil"], ["temp_dir", "°C", "tmo_ventil"], ["temp_dif", "°C", "tmo_ventil"], ["temp_dome", "°C", "tmo_ventil"], ["temp_case", "°C", "tmo_ventil"]],
+    "SOLAR_HEADER": [["acronym", "", ""],["timestamp", "", ""], ["year", "", ""], ["day", "", ""], ["min", "", ""], 
+                    ["glo_avg", "W/m2", "pir_thermpil"], ["glo_std", "W/m2", "pir_thermpil"], ["glo_max", "W/m2", "pir_thermpil"], ["glo_min", "W/m2", "pir_thermpil"], 
+                    ["dif_avg", "W/m2", "pir_shdtrker"], ["dif_std", "W/m2", "pir_shdtrker"], ["dif_max", "W/m2", "pir_shdtrker"], ["dif_min", "W/m2", "pir_shdtrker"], 
+                    ["par_avg", "µmols/m2.s", "par_photodio"], ["par_std", "µmols/m2.s", "par_photodio"], ["par_max", "µmols/m2.s", "par_photodio"], ["par_min", "µmols/m2.s", "par_photodio"], 
+                    ["lux_avg", "klux", "lux_photodio"], ["lux_std", "klux", "lux_photodio"], ["lux_max", "klux", "lux_photodio"], ["lux_min", "klux", "lux_photodio"], 
+                    ["dir_avg", "W/m2", "phl_thermpil"], ["dir_std", "W/m2", "phl_thermpil"], ["dir_max", "W/m2", "phl_thermpil"], ["dir_min", "W/m2", "phl_thermpil"], 
+                    ["lw_avg", "W/m2", "prg_shdtrkr"], ["lw_std", "W/m2", "prg_shdtrkr"], ["lw_max", "W/m2", "prg_shdtrkr"], ["lw_min", "W/m2", "prg_shdtrkr"], 
+                    ["temp_glo", "°C", "tcp_sensor"], ["temp_dir", "°C", "tcp_sensor"], ["temp_dif", "°C", "tcp_sensor"], ["temp_dome", "°C", "tcp_sensor"], ["temp_case", "°C", "tcp_sensor"]],
     
-    "SKY_CAMERA":[["BRB"],[["sigla",""],["timestamp",""],["year",""],["day",""],["min",""],["cov_brbg","sky_camera"],["cov_cdoc","sky_camera"],["cov_cdoc_thick","sky_camera"],["cov_cdoc_thin","sky_camera"],["cov_sun","sky_camera"]]],
+    "SKY_CAMERA":[["BRB"],[["acronym",""],["timestamp",""],["year",""],["day",""],["min",""],["cov_brbg","sky_camera"],["cov_cdoc","sky_camera"],["cov_cdoc_thick","sky_camera"],["cov_cdoc_thin","sky_camera"],["cov_sun","sky_camera"]]],
                     
                     
     "_comment": "UPDATE HEADERS",        
-    "MET_UPDATE": [[["BRB"],"2004-08-01 00:40:00",["tp_sfc", "\u00b0C", "tmo_aspira"], ["humid", "%", "hgr_aspira"], ["press", "mb", "bar_atmosf"], ["rain", "mm", "plv_tipbuk"], ["ws10_avg", "m/s", "anm_propel"], ["ws10_std", "m/s", "anm_propel"], ["wd10_avg", "deg", "anm_propel"], ["wd10_std", "deg", "anm_propel"]],
-                   [["BSB"],"2009-08-02 00:40:00",["ws10_avg", "m/s", "testasdde2"]],
-                   [["CAI"], "2008-04-01 00:00:00",["tp_sfc", "\u00b0C", "tmo_aspira"], ["humid", "%", "hgr_aspira"],["press", "mb", "bar_atmosf"], ["rain", "mm", "plv_tipbuk"], ["ws10_avg", "m/s", "anm_sonico"], ["ws10_std", "m/s", "anm_sonico"], ["wd10_avg", "deg", "anm_sonico"], ["wd10_std", "deg", "anm_sonico"]],
-                   [["CAI"], "2015-11-01 00:00:00",["tp_sfc", "\u00b0C", "tmo_aspira"], ["humid", "%", "hgr_aspira"], ["press", "mb", "bar_atmosf"], ["rain", "mm", "plv_tipbuk"], ["ws10_avg", "m/s", "anm_sonico"], ["ws10_std", "m/s", "anm_sonico"], ["wd10_avg", "deg", "anm_sonico"], ["wd10_std", "deg", "anm_sonico"]]
+    "MET_UPDATE": [[["BRB"],"2015-06-01 00:00:00",["ws10_avg", "m/s", "anm_sonic"], ["ws10_std", "m/s", "anm_sonic"], ["wd10_avg", "deg", "anm_sonic"], ["wd10_std", "deg", "anm_sonic"]],
+                   [["PTR"],"2015-08-01 00:00:00",["ws10_avg", "m/s", "anm_sonic"], ["ws10_std", "m/s", "anm_sonic"], ["wd10_avg", "deg", "anm_sonic"], ["wd10_std", "deg", "anm_sonic"]],
+                   [["SMS"],"2015-11-01 00:00:00",["ws10_avg", "m/s", "anm_sonic"], ["ws10_std", "m/s", "anm_sonic"], ["wd10_avg", "deg", "anm_sonic"], ["wd10_std", "deg", "anm_sonic"]],
+                   [["OUR"],"2015-09-15 00:00:00",["ws10_avg", "m/s", "anm_sonic"], ["ws10_std", "m/s", "anm_sonic"], ["wd10_avg", "deg", "anm_sonic"], ["wd10_std", "deg", "anm_sonic"]],
+                   [["SLZ"],"2015-01-01 00:00:00",["ws10_avg", "m/s", "anm_sonic"], ["ws10_std", "m/s", "anm_sonic"], ["wd10_avg", "deg", "anm_sonic"], ["wd10_std", "deg", "anm_sonic"]],
+                   [["PMA"],"2020-06-01 00:00:00",["ws10_avg", "m/s", "anm_sonic"], ["ws10_std", "m/s", "anm_sonic"], ["wd10_avg", "deg", "anm_sonic"], ["wd10_std", "deg", "anm_sonic"]]
                ],
                    
-    "SOL_UPDATE": [[["BRB"],"2004-08-01 00:40:00",["glo_avg", "W/m2", "pir_termpil"], ["glo_std", "W/m2", "pir_termpil"], ["glo_max", "W/m2", "pir_termpil"], ["glo_min", "W/m2", "pir_termpil"], ["dif_avg", "W/m2", "pir_rastsbr"], ["dif_std", "W/m2", "pir_rastsbr"], ["dif_max", "W/m2", "pir_rastsbr"], ["dif_min", "W/m2", "pir_rastsbr"], ["par_avg", "\u00b5mols/m2.s", "par_fotodio"], ["par_std", "\u00b5mols/m2.s", "par_fotodio"], ["par_max", "\u00b5mols/m2.s", "par_fotodio"], ["par_min", "\u00b5mols/m2.s", "par_fotodio"], ["lux_avg", "klux", "lux_fotodio"], ["lux_std", "klux", "lux_fotodio"], ["lux_max", "klux", "lux_fotodio"], ["lux_min", "klux", "lux_fotodio"], ["dir_avg", "W/m2", "phl_termpil"], ["dir_std", "W/m2", "phl_termpil"], ["dir_max", "W/m2", "phl_termpil"], ["dir_min", "W/m2", "phl_termpil"], ["lw_avg", "W/m2", "prg_rastsbr"], ["lw_std", "W/m2", "prg_rastsbr"], ["lw_max", "W/m2", "prg_rastsbr"], ["lw_min", "W/m2", "prg_rastsbr"], ["temp_glo", "\u00b0C", "tmo_ventil"], ["temp_dir", "\u00b0C", "tmo_ventil"], ["temp_dif", "\u00b0C", "tmo_ventil"], ["temp_dome", "\u00b0C", "tmo_ventil"], ["temp_case", "\u00b0C", "tmo_ventil"]],
-                   [["BSB"],"2009-08-02 00:40:00",["ws10_avg", "m/s", "testasdde2"]]
+    "SOL_UPDATE": [[["OUR"],"2006-02-01 00:00:00",["dif_avg", "W/m2", "pir_shdring"], ["dif_std", "W/m2", "pir_shdring"], ["dif_max", "W/m2", "pir_shdring"], ["dif_min", "W/m2", "pir_shdring"]],
+                   [["CBA"],"2004-01-01 00:00:00",["dif_avg", "W/m2", "pir_shdring"], ["dif_std", "W/m2", "pir_shdring"], ["dif_max", "W/m2", "pir_shdring"], ["dif_min", "W/m2", "pir_shdring"]],
+                   [["CGR"],"2004-02-01 00:00:00",["dif_avg", "W/m2", "pir_shdring"], ["dif_std", "W/m2", "pir_shdring"], ["dif_max", "W/m2", "pir_shdring"], ["dif_min", "W/m2", "pir_shdring"]],
+                   [["JOI"],"2004-04-01 00:00:00",["dif_avg", "W/m2", "pir_shdring"], ["dif_std", "W/m2", "pir_shdring"], ["dif_max", "W/m2", "pir_shdring"], ["dif_min", "W/m2", "pir_shdring"]],
+                   [["SBR"],"2004-01-01 00:00:00",["dif_avg", "W/m2", "pir_shdring"], ["dif_std", "W/m2", "pir_shdring"], ["dif_max", "W/m2", "pir_shdring"], ["dif_min", "W/m2", "pir_shdring"]],
+                   [["NAT"],"2007-07-01 00:00:00",["dif_avg", "W/m2", "pir_shdring"], ["dif_std", "W/m2", "pir_shdring"], ["dif_max", "W/m2", "pir_shdring"], ["dif_min", "W/m2", "pir_shdring"]],
+                   [["PMA"],"2005-04-01 00:00:00",["dif_avg", "W/m2", "pir_shdring"], ["dif_std", "W/m2", "pir_shdring"], ["dif_max", "W/m2", "pir_shdring"], ["dif_min", "W/m2", "pir_shdring"]],
+                   [["OUR"],"2015-09-15 00:00:00",["dif_avg", "W/m2", "pir_shdtrker"], ["dif_std", "W/m2", "pir_shdtrker"], ["dif_max", "W/m2", "pir_shdtrker"], ["dif_min", "W/m2", "pir_shdtrker"]],
+                   [["CAI"],"2015-11-01 00:00:00",["dif_avg", "W/m2", "pir_shdtrker"], ["dif_std", "W/m2", "pir_shdtrker"], ["dif_max", "W/m2", "pir_shdtrker"], ["dif_min", "W/m2", "pir_shdtrker"]],
+                   [["PMA"],"2020-06-01 00:00:00",["dif_avg", "W/m2", "pir_shdtrker"], ["dif_std", "W/m2", "pir_shdtrker"], ["dif_max", "W/m2", "pir_shdtrker"], ["dif_min", "W/m2", "pir_shdtrker"]]
                ]
     
 }]
