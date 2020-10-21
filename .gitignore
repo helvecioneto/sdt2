@@ -5,10 +5,11 @@ __pycache__/
 
 #Out
 input/
-input02/
 output/
 brutos/
 temp/
+preprocessing/
+
 .DS_Store
 
 # C extensions

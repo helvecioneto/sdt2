@@ -5,8 +5,8 @@ from camera.process_camera import process_files
 from os import listdir
 
 config = load_config()
-inputf = config[0]['INPUT']
-inputf2 = config[0]['INPUT02']
+inputf = config[0]['TEMPORARY_IN']
+inputf2 = config[0]['SKYCAMERA_IN']
 
 def load_stations():
     file_names = [fn for fn in listdir(inputf) if not fn.startswith('.')]

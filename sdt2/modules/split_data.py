@@ -16,6 +16,9 @@ warnings.filterwarnings('ignore')
 ## Global variables
 config = load_config()
 
+## Debug dir
+debug_dir = config[0]['DEBUG_DIR']
+
 ## Used to copy header
 aux = config[0]['MET_HEADER'].copy()
 aux2 = config[0]['SOLAR_HEADER'].copy()
@@ -43,12 +46,18 @@ def split_data():
     process_files(files)
     
 def process_files(files):
-    logging.basicConfig(filename='warning_logs.txt', filemode='w', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+    
+    debug_di = str(debug_dir) + 'split_warning_logs.txt'
+    logging.basicConfig(filename=debug_di, filemode='a', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
     
     for file in sorted(files):
-        df = pd.read_table(file,header=None, sep=',')
-        df.columns = BRUTE_HEADER
-        
+        try:
+            df = pd.read_table(file,header=None, sep=',')
+            df.columns = BRUTE_HEADER
+        except:
+            logging.warning('Error to read at file: '+str(file)+'')
+            print('Error in Meteorological variables: ', file)
+            
         try:
             os.system('cls' if os.name == 'nt' else 'clear')
             process_meteo(df[meteoH].rename(columns=str.lower),file)
@@ -115,7 +124,7 @@ def process_meteo(meteo,file):
     ## Extract month string
     month = (meteorological['timestamp'][0].strftime('%m'))
     stat_ = file.parent.parent.name 
-    output = config[0]['OUTPUT']+stat_+'/Meteorologicos/'+year_+'/'+stat_+'_'+year_+'_'+month+'_MD_formatado.csv'
+    output = config[0]['FORMATED_OUT']+stat_+'/Meteorologicos/'+year_+'/'+stat_+'_'+year_+'_'+month+'_MD_formatado.csv'
               
         ### Create dir of output if not exist
     if not os.path.exists(os.path.dirname(output)):
@@ -268,7 +277,7 @@ def process_solar(solar,file):
     year_ = file.parent.name
     month = (solar['timestamp'][0].strftime('%m'))
     stat_ = file.parent.parent.name
-    output = config[0]['OUTPUT']+stat_+'/Solarimetricos/'+year_+'/'+stat_+'_'+year_+'_'+month+'_SD_formatado.csv'
+    output = config[0]['FORMATED_OUT']+stat_+'/Solarimetricos/'+year_+'/'+stat_+'_'+year_+'_'+month+'_SD_formatado.csv'
     
     ### Create dir of output if not exist
     if not os.path.exists(os.path.dirname(output)):

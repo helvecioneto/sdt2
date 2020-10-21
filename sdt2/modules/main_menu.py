@@ -4,70 +4,85 @@ import sys
 from modules.top_header import top_header
 from modules.split_data import split_data
 from modules.load_stations import load_stations_02
-from modules.automatic import load_data_type
-from modules.format_new_data import format_new_data
+from modules.download_data import download_stations
 
 def main_menu():
     top_header('Main Menu')
-    print('\t\tPlease select an option: ')
+    print('\t\tPlease select operational mode: ')
     choice = input("""
-                  0: Format New Data
-                  1: Anemometric Data
-                  2: Solar Data
-                  3: Sky Camera Data
-                  4: Automatic detection
+                  0: Preprocessing Mode
+                  1: Translate Mode
                   Q: Quit
                   Please enter your choice: """)
-
-    if choice == "Format New Data" or choice =="0":
-        format_new_data()
-    elif choice == "Anemometric Data" or choice =="1":
-        anemomectric()
-    elif choice == "Solar Data" or choice =="2":
-        solarimetric()
-    elif choice == "Sky Camera Data" or choice =="3":
-        skycamera()
-    elif choice == "Automatic detection" or choice =="4":
-        automatic()
+    
+    if choice == "0: Preprocessing Mode" or choice =="0":
+        pre_processing_menu()
+    elif choice == "1: Translate Mode" or choice =="1":
+        translate_menu()
     elif choice=="Q" or choice=="q":
         sys.exit
     else:
         print("You must only select one option")
         print("Please try again")
-        main_menu()
+        main_menu()   
+                  
 
-    
-def anemomectric():
-    print('Anemometric')
-
-def solarimetric():
-    top_header('Main Menu > Solarimetric')
-    print('\t\tPlease select an option')
+def pre_processing_menu():
+    top_header('Main Menu > Preprocessing Mode')
+    print('\t\tPlease select operational mode: ')
     choice = input("""
-                  1: Split (Ambiental/Solar)
-                  2: Create Headers Log
+                  0: Download Data
+                  1: Generate Historical Data
+                  2: Translate Historical Data
+                  B: Back
                   Q: Quit
                   Please enter your choice: """)
-
-    if choice == "Split (Ambiental/Solar)" or choice =="1":
-        split_data()
-    elif choice == "Create Headers Log" or choice =="2":
-        print('Função não implementada')
+                  
+    if choice == "Download Data" or choice =="0":
+        download_stations()
+    elif choice == "Generate Historical Data" or choice =="1":
+        print('Gerar historicos')
+    elif choice == "Translate Historical Data" or choice =="2":
+        print('Traduzir historicos')
+    elif choice == "B" or choice =="b":
         main_menu()
     elif choice=="Q" or choice=="q":
         sys.exit
     else:
-        print("You must only select either 1 or 2")
+        print("You must only select one option")
         print("Please try again")
+        pre_processing_menu()
+    
+def translate_menu():
+    top_header('Main Menu > Translate Mode')
+    print('\t\tPlease select operational mode: ')
+    choice = input("""
+                  0: Translate Anemometric Data
+                  1: Translate and Split Solar Data
+                  2: Translate Sky Camera Data
+                  B: Back
+                  Q: Quit
+                  Please enter your choice: """)
+
+    if choice == "Translate Anemometric Data" or choice =="0":
+        anemomectric()
+    elif choice == "Translate and Split Solar Data" or choice =="1":
+        split_data()
+    elif choice == "Translate Sky Camera Data" or choice =="2":
+        skycamera()
+    elif choice == "B" or choice =="b":
         main_menu()
-        
+    elif choice=="Q" or choice=="q":
+        sys.exit
+    else:
+        print("You must only select one option")
+        print("Please try again")
+        translate_menu()
+
+def anemomectric():
+    print('Anemometric')
+
 def skycamera():
     top_header('Main Menu > Sky Camera')
     print('\t\tPlease select an option')
     load_stations_02()
-    
-def automatic():
-    top_header('Main Menu > Detect and format ')
-    print('\t\tPlease select an option')
-    load_data_type()
-    
