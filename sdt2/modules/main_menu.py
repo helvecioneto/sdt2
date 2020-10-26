@@ -5,6 +5,7 @@ from modules.top_header import top_header
 from modules.split_data import split_data
 from modules.load_stations import load_stations_02
 from modules.download_data import download_stations
+from modules.historical_generator import historic_generate
 
 def main_menu():
     top_header('Main Menu')
@@ -41,7 +42,7 @@ def pre_processing_menu():
     if choice == "Download Data" or choice =="0":
         download_stations()
     elif choice == "Generate Historical Data" or choice =="1":
-        print('Gerar historicos')
+        historic_generate()
     elif choice == "Translate Historical Data" or choice =="2":
         print('Traduzir historicos')
     elif choice == "B" or choice =="b":

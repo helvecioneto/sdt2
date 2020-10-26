@@ -1,14 +1,13 @@
 [{  "TEMPORARY_IN":"../input/dados_temporarios/",
     "SKYCAMERA_IN":"../input/sky_camera/",
-    "PREPROCESSING_IN":"../preprocessing/input/",
-    "OPERATIONAL_IN":"../preprocessing/operational/",
+    "PREPROCESSING_IN":"../input/preprocessing/",
+    "OPERATIONAL_IN":"../input/operational/",
         
     "FORMATED_OUT":"../output/dados_formatados/",
-    "HISTORICAL_OUT":"../preprocessing/input/",
+    "TEMPORARY_OUT":"../output/temporary_data",
+    "HISTORICAL_OUT":"../output/historical/",
     
     "DEBUG_DIR":"../output/debug/",
-    "FTP_DIR":"/labgama/redesonda/",
-    
 
     
     "_comment": "FSL_BRUTE",
