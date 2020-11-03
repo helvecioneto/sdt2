@@ -2,13 +2,14 @@
 from modules.load_config import load_config
 from modules.load_files import load_files
 from camera.process_camera import process_files
-from os import listdir
+from dependecies import *
 
 config = load_config()
 inputf = config[0]['TEMPORARY_IN']
 inputf2 = config[0]['SKYCAMERA_IN']
 
 def load_stations():
+    print(inputf)
     file_names = [fn for fn in listdir(inputf) if not fn.startswith('.')]
     count = -1
     for f in file_names:

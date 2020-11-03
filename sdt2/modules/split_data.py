@@ -2,15 +2,8 @@
 from modules.load_stations import load_stations
 from modules.load_config import load_config
 from modules.top_header import top_header
-from math import sin, cos, asin ,radians, degrees
-# from cmath import sin, cos, asin
-# from math import radians, degrees
-import pandas as pd
-import errno
-import os
-import numpy as np
-import warnings
-import logging
+
+from dependecies import *
 warnings.filterwarnings('ignore')
 
 ## Global variables
@@ -49,6 +42,7 @@ def process_files(files):
     
     debug_di = str(debug_dir) + 'split_warning_logs.txt'
     logging.basicConfig(filename=debug_di, filemode='a', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+    logger.setLevel(logging.INFO)
     
     for file in sorted(files):
         try:

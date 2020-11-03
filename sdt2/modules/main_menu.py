@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-#import sdt2
-import sys
 from modules.top_header import top_header
 from modules.split_data import split_data
 from modules.load_stations import load_stations_02
 from modules.download_data import download_stations
 from modules.historical_generator import historic_generate
+from dependecies import *
 
-def main_menu():
+
+def mainMenu():
     top_header('Main Menu')
     print('\t\tPlease select operational mode: ')
     choice = input("""
@@ -25,7 +25,7 @@ def main_menu():
     else:
         print("You must only select one option")
         print("Please try again")
-        main_menu()   
+        mainMenu()   
                   
 
 def pre_processing_menu():
@@ -46,7 +46,7 @@ def pre_processing_menu():
     elif choice == "Translate Historical Data" or choice =="2":
         print('Traduzir historicos')
     elif choice == "B" or choice =="b":
-        main_menu()
+        mainMenu()
     elif choice=="Q" or choice=="q":
         sys.exit
     else:
@@ -72,7 +72,7 @@ def translate_menu():
     elif choice == "Translate Sky Camera Data" or choice =="2":
         skycamera()
     elif choice == "B" or choice =="b":
-        main_menu()
+        mainMenu()
     elif choice=="Q" or choice=="q":
         sys.exit
     else:

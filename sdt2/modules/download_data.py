@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
-from modules.top_header import top_header
-import time
-import sys
-from ftplib import FTP
+  
+from dependecies import *
 from modules.load_config import load_config
-import pathlib
-import os
+from modules.top_header import top_header
 
+config_file = load_config()
 
 def download_stations():
     top_header('Main Menu > Preprocessing Mode > Download Data')
-    
-    
     stations,ftp_con = connection()
-    
     ### Station
     count = -1
     for f in stations:
@@ -34,12 +29,11 @@ def download_stations():
         break
     
 def connection():
-    
     stations_list = []
     try:
         print('\t\tConecting...')
-        ftp = FTP(load_config()[0]['FTP_IP'])
-        ftp.login(load_config()[0]['FTP_USER'],load_config()[0]['FTP_PASS'])
+        ftp = FTP(config_file[0]['FTP_IP'])
+        ftp.login(config_file[0]['FTP_USER'],config_file[0]['FTP_PASS'])
         time.sleep(2)
         print('\t\tConnection established!')
         print('')
@@ -59,8 +53,8 @@ def connection():
             connection()
     
 def get_station_list(ftp):
-
-    ftp_dir = load_config()[0]['FTP_DIR']
+    
+    ftp_dir = config_file[0]['FTP_DIR']
     
     ## Add STATIONS
     lt_stations = ['sms']
@@ -92,8 +86,10 @@ def download_files(directory,connection,station):
                   Please enter your choice: """)
 
     if choice == "All" or choice =="0":
-        pathlib.Path(load_config()[0]['OPERATIONAL_IN']+'/'+str(station)).mkdir(parents=True, exist_ok=True)
-        os.chdir(load_config()[0]['OPERATIONAL_IN']+'/'+str(station))
+        pathlib.Path(config_file[0]['OPERATIONAL_IN']+str(station)).mkdir(parents=True, exist_ok=True)
+        
+        os.chdir(config_file[0]['OPERATIONAL_IN']+str(station))
+        print(config_file[0]['OPERATIONAL_IN']+str(station))
         
         connection.cwd(directory)
         
@@ -107,8 +103,8 @@ def download_files(directory,connection,station):
 
         
     elif choice == "Meteorological" or choice =="1":
-        pathlib.Path(load_config()[0]['OPERATIONAL_IN']+'/'+str(station)).mkdir(parents=True, exist_ok=True)
-        os.chdir(load_config()[0]['OPERATIONAL_IN']+'/'+str(station))
+        pathlib.Path(config_file[0]['OPERATIONAL_IN']+'/'+str(station)).mkdir(parents=True, exist_ok=True)
+        os.chdir(config_file[0]['OPERATIONAL_IN']+'/'+str(station))
         
         connection.cwd(directory)
         
@@ -120,8 +116,8 @@ def download_files(directory,connection,station):
         print('All files has been downloaded!')
         
     elif choice == "Solarimetric" or choice =="2":
-        pathlib.Path(load_config()[0]['OPERATIONAL_IN']+'/'+str(station)).mkdir(parents=True, exist_ok=True)
-        os.chdir(load_config()[0]['OPERATIONAL_IN']+'/'+str(station))
+        pathlib.Path(config_file[0]['OPERATIONAL_IN']+'/'+str(station)).mkdir(parents=True, exist_ok=True)
+        os.chdir(config_file[0]['OPERATIONAL_IN']+'/'+str(station))
         
         connection.cwd(directory)
         
@@ -133,8 +129,8 @@ def download_files(directory,connection,station):
         print('All files has been downloaded!')
         
     elif choice == "Anemometric10" or choice =="3":
-        pathlib.Path(load_config()[0]['OPERATIONAL_IN']+'/'+str(station)).mkdir(parents=True, exist_ok=True)
-        os.chdir(load_config()[0]['OPERATIONAL_IN']+'/'+str(station))
+        pathlib.Path(config_file[0]['OPERATIONAL_IN']+'/'+str(station)).mkdir(parents=True, exist_ok=True)
+        os.chdir(config_file[0]['OPERATIONAL_IN']+'/'+str(station))
         
         connection.cwd(directory)
         
@@ -145,8 +141,8 @@ def download_files(directory,connection,station):
             fhandle.close()
         print('All files has been downloaded!')
     elif choice == "Anemometric25" or choice =="4":
-        pathlib.Path(load_config()[0]['OPERATIONAL_IN']+'/'+str(station)).mkdir(parents=True, exist_ok=True)
-        os.chdir(load_config()[0]['OPERATIONAL_IN']+'/'+str(station))
+        pathlib.Path(config_file[0]['OPERATIONAL_IN']+'/'+str(station)).mkdir(parents=True, exist_ok=True)
+        os.chdir(config_file[0]['OPERATIONAL_IN']+'/'+str(station))
         
         connection.cwd(directory)
         
@@ -156,9 +152,10 @@ def download_files(directory,connection,station):
             connection.retrbinary('RETR ' + filename, fhandle.write)
             fhandle.close()
         print('All files has been downloaded!')
+        
     elif choice == "Anemometric50" or choice =="5":
-        pathlib.Path(load_config()[0]['OPERATIONAL_IN']+'/'+str(station)).mkdir(parents=True, exist_ok=True)
-        os.chdir(load_config()[0]['OPERATIONAL_IN']+'/'+str(station))
+        pathlib.Path(config_file[0]['OPERATIONAL_IN']+'/'+str(station)).mkdir(parents=True, exist_ok=True)
+        os.chdir(config_file[0]['OPERATIONAL_IN']+'/'+str(station))
         
         connection.cwd(directory)
         
