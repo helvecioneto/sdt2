@@ -9,7 +9,7 @@
     
     "DEBUG_DIR":"./output/debug/",
     "FTP_DIR":"/labgama/redesonda/",
-
+ 
     
     "_comment": "FSL_BRUTE",
     "BRUTE_HEADER": ["ID","Year","Day","Min","Global_Avg","Global_Std","Global_Max",
