@@ -4,6 +4,6 @@ from __init__ import *
 
 if __name__ == "__main__":
 	### Usar menus
-    mainMenu()
+    # mainMenu()
     ## Processamento direto
-    # main_qualify()
+    main_qualify()

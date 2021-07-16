@@ -2,8 +2,12 @@
 from modules.top_header import top_header
 from modules.load_config import load_config
 from datetime import datetime
+import calendar
 from dependecies import *
 
+
+
+config_file = load_config()
 def historic_generate():
     
     operation_dir = load_config()[0]['OPERATIONAL_IN']
@@ -177,14 +181,25 @@ def historic_generate():
         	if str(detc_mean) == 'nan':
         		non_sens_col.append(c)
 
+        
+
+        ## DESAPROVE WITH TIME INTERVAL
+        ## DETECT TYPE OF FILE
+        if dataTypes[ans_type] == 'MD' or dataTypes[ans_type] == '10' or dataTypes[ans_type] == '25' or dataTypes[ans_type] == '50':
+            t_delta =  pd.Timedelta(minutes=10)
+        if dataTypes[ans_type] == 'SD' or dataTypes[ans_type] == 'TD':
+            t_delta =  pd.Timedelta(minutes=1)
+            
+        
         ## Generate all month days to compare
-        year_month = locked_df_chk[0].dt.strftime('%Y-%m').values[0]
+        year_month = locked_df_chk[0].dt.strftime('%Y-%m').values[0] 
+        # print(pd.Timestamp(year_month) + pd.offsets.MonthEnd(1) + pd.Timedelta(hours=24) - t_delta)
         month_generated = pd.date_range(
                 start = pd.Timestamp(year_month),                        
-                end = pd.Timestamp(year_month) + pd.offsets.MonthEnd(0),  # <-- 2018-08-31 with MonthEnd
+                end = pd.Timestamp(year_month) + pd.offsets.MonthEnd(1) + pd.Timedelta(hours=24) - t_delta,  # <-- 2018-08-31 with MonthEnd
                 freq = freqc
             )
-
+            
         
         ## CHECK DUPLICAT IN TIMESTAMP COLUMN
         times_dup = locked_df_chk[locked_df_chk.duplicated([0],keep=False)]
@@ -198,9 +213,13 @@ def historic_generate():
             for idxgg in range(len(idx_groups)):
                 pass_idx = idx_groups[idxgg] - 1
                 if dataTypes[ans_type] == 'MD' or dataTypes[ans_type] == '10' or dataTypes[ans_type] == '25' or dataTypes[ans_type] == '50':
-                    locked_df_chk.loc[idx_groups[idxgg],0] = locked_df_chk.loc[pass_idx][0] + pd.Timedelta(minutes=10)
+                    t_delta =  pd.Timedelta(minutes=10)
+                    locked_df_chk.loc[idx_groups[idxgg],0] = locked_df_chk.loc[pass_idx][0] + t_delta
                 if dataTypes[ans_type] == 'SD' or dataTypes[ans_type] == 'TD':
-                    locked_df_chk.loc[idx_groups[idxgg],0] = locked_df_chk.loc[pass_idx][0] + pd.Timedelta(minutes=1)
+                    t_delta =  pd.Timedelta(minutes=1)
+                    locked_df_chk.loc[idx_groups[idxgg],0] = locked_df_chk.loc[pass_idx][0] + t_delta
+                    
+        
 
         ## CHECK DUPLICAT IN TIMESTAMP COLUMN
         locked_df_chk = locked_df_chk.drop_duplicates(subset=0)
@@ -213,6 +232,31 @@ def historic_generate():
 
         # FILL
         locked_df_chk = locked_df_chk.reindex(month_generated, fill_value=0)
+        
+        
+        ## DESAPROVE WITH TIME INTERVAL
+        check_t_interval = locked_df_chk
+        check_t_interval = check_t_interval[min_time:max_time]
+        # ## LIMITE TIME DETAL
+        lim_delta = pd.Timedelta(minutes=50)
+
+        totalDelta = t_delta
+        for i, row in check_t_interval.iterrows():
+            if np.all(row[6:-1].values == 0):
+                totalDelta = totalDelta + t_delta
+            else:
+                last_ro = i
+                totalDelta = pd.Timedelta(minutes=0)
+            if totalDelta >= lim_delta:
+                print('Failed to generate file due to a longer time sequence of failures greater than ',lim_delta,'\n')
+                print('')
+                fail = check_t_interval[last_ro:i+t_delta]
+                # fail[6:-1] = 3333
+                fail = fail.reset_index()
+                fail.columns = mux
+                print(fail)
+                return None
+  
 
         ## ADD NON-EXISTENT VALUES
         locked_df_chk[non_sens_col] = 5555
@@ -248,7 +292,7 @@ def historic_generate():
         diff_columns = np.setdiff1d(locked_df_chk.columns.values,dt_non_se)
         locked_df_chk.loc[idx_values, diff_columns] = 3333
 
-        # print(locked_df_chk['2020-09-06 22:00':'2020-09-07 01:50'])
+        # print(locked_df_chk['2020-09-09 13:30':'2020-09-09 17:20'].head(50))
         
         ## SAVE
         if len(locked_df_chk) > 0:
@@ -318,3 +362,86 @@ def historic_generate():
                 print(warningmsg)
                 print(locked_df_chk)
                 locked_df_chk.to_csv(file__,index=False)
+
+
+            ## UPLOAD RESULTS
+            ver_file_names = [fn for fn in listdir(output_dir+str('/versions')) if not fn.startswith('.')]
+            if len(ver_file_names) > 0:
+                last_file_version = sorted(ver_file_names)[-1]
+            else:
+                last_file_version = None
+            file_to_upload = file__
+            
+            print('\t\tUpload files to FTP: ')
+            choice = input("""
+                          (Y) - Yes
+                          (N) - No
+                          Please enter your choice: """)
+            
+            if choice == "Y" or choice =="y":
+                connection(file_to_upload,operational_stations[ans_file],selected_year,output_file_name,last_file_version,operational_stations[ans_file])
+            elif choice == "N" or choice =="n":
+                sys.exit
+            elif choice=="Q" or choice=="q":
+                sys.exit
+            else:
+                print("You must only select one option")
+                print("Please try again")
+                mainMenu()   
+
+            
+def connection(file_upload,output_dir,selected_year,output_file_name,last_file_version,stass):
+    stations_list = []
+    # try:
+    print('\t\tConecting...')
+    ftp = FTP(config_file[0]['FTP_IP'])
+    ftp.login(config_file[0]['FTP_USER'],config_file[0]['FTP_PASS'])
+    time.sleep(2)
+    print('\t\tConnection established!')
+    print('')
+    print('\t\tPlease select one station')
+    
+    ftp_dir = config_file[0]['FTP_OUT_HISTORICAL']
+    local_historial_ = config_file[0]['HISTORICAL_OUT']
+    
+    last_file = local_historial_+stass+'/'+str(selected_year)+'/versions/'+last_file_version      
+    listdir = ftp.nlst(ftp_dir+str(output_dir)+'/')
+    dir_st_up = []
+    for i in listdir:
+        if str(selected_year) == str(i[-4:]):
+            dir_st_up.append(i)
+            
+    if len(dir_st_up) > 0:
+        try:
+            ftp.cwd(dir_st_up[0])
+            ftp.storlines("STOR " + output_file_name, open(file_upload, 'rb'))
+            
+            ## UPLOAD LAST VERSION
+            ftp.cwd(str(dir_st_up[0])+str('/versions'))
+            ftp.storlines("STOR " + last_file_version, open(last_file, 'rb'))
+            print('File has been upload to ',file_upload)
+        except:
+            print('FTP Fail')
+    else:
+        try:
+            dir_st_up = ftp_dir+str(output_dir)+'/'+str(selected_year)
+            ## CREATE DIR
+            ftp.mkd(dir_st_up)
+            ## OPEN
+            ftp.cwd(dir_st_up)
+            ftp.storlines("STOR " + output_file_name, open(file_upload, 'rb'))
+            
+            ## UPLOAD LAST VERSION
+            ftp.cwd(dir_st_up+str('/versions'))
+            ftp.storlines("STOR " + last_file_version, open(last_file, 'rb'))
+            print('File has been upload to ',file_upload)
+        except:
+            print('FTP Fail')
+
+          
+          
+          
+          
+          
+          
+          
