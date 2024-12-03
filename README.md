@@ -1,5 +1,5 @@
 # sdt2
-Sonda Data Translator 2
+Sonda Data Translator
 
 ## Dependency libraries for installation.
 
@@ -12,9 +12,10 @@ Sonda Data Translator 2
 
 ## Install Dependency
 ## Anaconda Python 3
-
-$ conda env create --file sonda.yml
-$ conda activate sonda
+```bash
+    conda env create --file sonda.yml
+    conda activate sonda
+```
 
 ## How to use
 To use Sonda Data Translator 2, it is necessary to configure the "config.json" file inside the "sdt2" directory, describing the default settings for processing.
