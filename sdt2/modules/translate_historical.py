@@ -103,16 +103,36 @@ def open_file(select_file,station,year,file):
         header_in = None
         header_out = None
     
-    # print(header_in[1:])
-    # print(header_out)
-    
+    # READ FILE
     df = pd.read_csv(select_file, sep=",")
     
     ## SELECT ONLY COLUMNS INPUT
     df = df[header_in[1:]]
     ## IGNORE MULTINDEX INTO HISTORICAL DATA
     df = df.iloc[1:]
-    
+    ## Add column acronyms to the dataframe
+    df['acronym'] = [station] * len(df)
+    # Move acronym to the first column
+    cols = df.columns.tolist()
+    cols = cols[-1:] + cols[:-1]
+    df = df[cols]
+    # Remove column id if exists
+    if 'id' in df.columns:
+        df = df.drop('id', axis=1)
+
     print(df)
-    print('aqui')
-    print(load_config()[0]['FORMATED_OUT']+str(station)+'/'+str(year))
+
+    # Set new header to the dataframe
+    mux1 = pd.MultiIndex.from_tuples(header_out)
+    # Get level 0 of the multiindex
+    level_0 = mux1.get_level_values(0)
+    # Fit df based on level 0
+    for c in range(len(level_0)):
+        print(df.columns[c], level_0[c])
+
+    output = load_config()[0]['FORMATED_OUT']+str(station)+'/'+str(year)
+    file = file.replace('.dat','.csv')
+    if not os.path.exists(output):
+        os.makedirs(output)
+
+    df.to_csv(output+'/'+file, index=False)

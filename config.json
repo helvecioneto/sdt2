@@ -11,9 +11,7 @@
     "FTP_DIR":"/restricted/coleta/",
     "FTP_OUT_HISTORICAL":"/restricted/dados/sonda/historico/",
     
-    "FTP_IP":"",
-    "FTP_USER":"",
-    "FTP_PASS":"",
+
     
     "QUALI_IN":"./output/dados_formatados/",
     "QUALI_OUT":"./output/dados_qualificados/",

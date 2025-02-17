@@ -4,7 +4,8 @@ from modules.load_config import load_config
 from datetime import datetime
 import calendar
 from dependecies import *
-
+import warnings
+warnings.filterwarnings("ignore")
 
 
 config_file = load_config()
@@ -72,7 +73,7 @@ def historic_generate():
     if operational_stations[ans_file] == 'sms':
         
         ## OPEN DATA
-        df = pd.read_csv(selected_st+selected_file, sep=",", header=None, skiprows=4,skipinitialspace=False)
+        df = pd.read_csv(selected_st + selected_file, sep=",", header=None, skiprows=4, skipinitialspace=False, error_bad_lines=False)
         df1 = df.copy()
         head0 = pd.read_csv(selected_st+selected_file,sep=",",header=None, nrows = 1)
         head1 = pd.read_csv(selected_st+selected_file,sep=",",header=None, skiprows=1,nrows = 1)
@@ -82,13 +83,15 @@ def historic_generate():
         head1 = head1.iloc[0].values
         head2 = head2.iloc[0].values
 
-        
-        df1[0] = pd.to_datetime(df1[0] , format='%Y-%m-%d %H:%M:%S')
+        # Transform column df1[0] to datetime
+        df1[0] = pd.to_datetime(df1[0] , format='%Y-%m-%d %H:%M:%S', errors='coerce')
+
+        # Drop NaN timestamps
+        df1 = df1.dropna(subset=[0])
         
         ## SELECT TIMESTAMP TO PROCESSE
         top_header('Main > Preprocessing > Generate Historical > '+str(operational_stations[ans_file]).upper() + ' > '+ str(dataTypes[ans_type]))
         print('\t\tPlease select type of data to generate historical data: ')
-        
         ## AVAIBLE YEARS
         years = df1[0].dt.year.unique()
         countY = -1
